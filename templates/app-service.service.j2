@@ -1,0 +1,14 @@
+[Unit]
+Description={{ app.description }}
+
+[Service]
+User=appserver
+ExecStart=/usr/bin/java -Dspring.profiles.active=prod -jar /opt/apps/{{ app.jarfile }}
+SuccessExitStatus=143
+
+TimeoutStopSec=10
+# Restart=on-failure
+# RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

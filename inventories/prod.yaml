@@ -1,0 +1,6 @@
+appservers:
+    hosts:
+        app-server-01:
+            ansible_host: 172.31.181.51
+            apps:
+                - example

@@ -1,0 +1,6 @@
+ansible_become_password: "{{vault_ansible_become_password}}"
+
+app_configs:
+  example:
+    description: "Example Spring Boot Rest Service"
+    jarfile: "rest-service-0.0.1-SNAPSHOT.jar"

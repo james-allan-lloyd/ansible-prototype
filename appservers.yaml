@@ -1,0 +1,43 @@
+- name: Initialize App Servers
+  hosts: appservers
+  become: yes
+
+  tasks:
+  - name: appserver user is created
+    ansible.builtin.user:
+      name: appserver
+      comment: user that runs apps
+
+  - name: Ensure nginx is at the latest version
+    ansible.builtin.apt:
+      name: nginx
+      state: latest
+
+  - name: OpenJDK 17 is installed
+    ansible.builtin.apt:
+      name: openjdk-17-jre
+      state: latest
+
+  - name: configure applications
+    ansible.builtin.include_tasks: "tasks/configure-app.yaml"
+    vars:
+      app: "{{app_configs[item]}}"
+      app_name: "{{item}}"
+    with_items: "{{apps}}"
+
+  - name: nginx proxy configuration updated
+    ansible.builtin.template:
+      src: "templates/nginx.conf.j2"
+      dest: "/etc/nginx/sites-enabled/default"
+    notify:
+      - "nginx is reloaded"
+
+  handlers:
+    - name: Systemd is reloaded
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+
+    - name: nginx is reloaded
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: reloaded
