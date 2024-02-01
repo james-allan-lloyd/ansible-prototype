@@ -4,3 +4,17 @@ app_configs:
   example:
     description: "Example Spring Boot Rest Service"
     jarfile: "rest-service-0.0.1-SNAPSHOT.jar"
+    prefix: "example"
+    port: "8081"
+
+  example2:
+    description: "Example Spring Boot Rest Service"
+    jarfile: "rest-service-0.0.1-SNAPSHOT.jar"
+    prefix: "example2"
+    port: "8082"
+
+  example3:
+    description: "Not deployed"
+    jarfile: "rest-service-0.0.1-SNAPSHOT.jar"
+    prefix: "example3"
+    port: "8083"

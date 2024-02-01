@@ -18,6 +18,11 @@
       name: openjdk-17-jre
       state: latest
 
+  - name: error if any host applications are unknown
+    ansible.builtin.fail:
+      msg: "The following apps are missing definition in the app_configs dictionary: {{apps | difference(app_configs.keys()) | join(',')}}"
+    when: apps | difference(app_configs.keys())
+
   - name: configure applications
     ansible.builtin.include_tasks: "tasks/configure-app.yaml"
     vars:

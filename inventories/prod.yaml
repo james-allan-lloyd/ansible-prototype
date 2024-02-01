@@ -4,3 +4,4 @@ appservers:
             ansible_host: 172.31.181.51
             apps:
                 - example
+                - example2

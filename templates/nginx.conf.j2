@@ -15,8 +15,13 @@ server {
         try_files $uri $uri/ =404;
     }
     
-    location /greeting {
-        proxy_pass http://localhost:8080;
+    {% for app in apps -%}
+    {% set prefix = app_configs[app].prefix -%}
+    # configuration for "{{app}}" app
+    location /{{prefix}}/ {
+        rewrite ^/{{prefix}}(.*)$ $1 break;
+        proxy_pass http://localhost:{{app_configs[app].port}};
         include proxy_params;
     }
+    {% endfor %}
 }

@@ -9,9 +9,10 @@
     dest: /etc/systemd/system/{{app_name}}.service
   notify:
     - "Systemd is reloaded"
+  register: service_definition
 
 - name: service is enabled and started
   ansible.builtin.systemd_service:
     name: "{{app_name}}"
     enabled: true
-    state: started
+    state: "{{ (service_definition is changed)|ternary('restarted', 'started') }}"
